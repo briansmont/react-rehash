@@ -12,12 +12,19 @@
     <script type="text/babel">
     
       class Counter extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            number: 1
+          }
+        }
         render() {
           return (
               <div>
                 <img src={this.props.image} alt="Logo"/>
                 <h1>Hello {this.props.name}!</h1>
                 <h2>Program: {this.props.label}</h2>
+                <h3>Week #: {this.state.number}</h3>
                 <p>Date: {this.props.date.toLocaleDateString()}</p>
               </div>
             );
