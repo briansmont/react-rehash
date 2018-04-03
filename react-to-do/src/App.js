@@ -1,18 +1,55 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import ToDo from './components/ToDo.js';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      todos: [
+        {description: "Walk Benny", isCompleted: false },
+        {description: "Wash dishes", isCompleted: true },
+        {description: "Call movers", isCompleted: false }
+      ],
+      newTodoDescription: ''
+    };
+  }
+  
+  handleChange(e) {
+    this.setState({ newTodoDescription: e.target.value});
+  }
+  
+  handleSubmit(e) {
+    e.preventDefault();
+    if (!this.state.newTodoDescription) {return}
+    const newTodo = {description: this.state.newTodoDescription, isCompleted: false};
+    this.setState({ todos: [...this.state.todos, newTodo], newTodoDescription: ''});
+  }
+  
+  toggleComplete(index) {
+    const todos = this.state.todos.slice();
+    const todo = todos[index];
+    todo.isCompleted = todo.isCompleted ? false : true;
+    this.setState({todos: todos});
+    
+    console.log('toggle complete executed!');
+  }
+  
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <ul>
+          { this.state.todos.map( (todo, index ) => 
+          <ToDo key={index} description={todo.description} isCompleted={todo.isCompleted} toggleComplete={ () => this.toggleComplete(index) }/>
+          )}
+        </ul>
+        
+        <form onSubmit={ (e) => this.handleSubmit(e) }>
+          <input type="text" value={this.state.newTodoDescription} onChange={ (e) => this.handleChange(e) } />
+          <input type="submit"/>
+        </form>
+
+        
       </div>
     );
   }
