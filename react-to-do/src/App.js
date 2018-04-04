@@ -35,12 +35,22 @@ class App extends Component {
     console.log('toggle complete executed!');
   }
   
+  deleteTodo(index) {
+    const todos = this.state.todos.slice();
+    const todo = todos[index];
+    // console.log(todo);
+    const newTodos = todos.filter(e => e !== todo);
+    // console.log(newTodos);
+    this.setState({todos: newTodos});
+    
+  }
+  
   render() {
     return (
       <div className="App">
         <ul>
           { this.state.todos.map( (todo, index ) => 
-          <ToDo key={index} description={todo.description} isCompleted={todo.isCompleted} toggleComplete={ () => this.toggleComplete(index) }/>
+          <ToDo key={index} description={todo.description} isCompleted={todo.isCompleted} toggleComplete={ () => this.toggleComplete(index)} deleteTodo={() => this.deleteTodo(index)}/>
           )}
         </ul>
         
